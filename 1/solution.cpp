@@ -1,24 +1,60 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <queue>
 
-int main(){
-    
+int increasedSlidingWindows(int size = 1)
+{
     std::ifstream file("input.txt");
     std::string str;
-    int num, prev;
+    int curr, prev;
     int cnt = 0;
-    while (std::getline(file, str))
+    if (size == 1)
     {
-        num = std::stoi(str);
-        if(prev){
-            if(num > prev){
+        while (std::getline(file, str))
+        {
+            curr = std::stoi(str);
+            if (prev)
+            {
+                if (curr > prev)
+                {
+                    cnt++;
+                }
+            }
+            prev = curr;
+        }
+        return cnt;
+    } else{
+        std::queue<int> window;
+        for(auto i = 0; i < size; i++){
+            std::getline(file, str);
+            auto temp = std::stoi(str);
+            window.push(temp);
+            curr+=temp;
+        }
+        prev = curr;
+        while (std::getline(file, str))
+        {   
+            // prev = curr;
+            curr -= window.front();
+            window.pop();
+            auto temp = std::stoi(str);
+            curr += temp; 
+            window.push(temp);
+            // std::cout << "Prev: " << std::to_string(prev) << " Curr: " << std::to_string(curr) << std::endl;
+            if (curr > prev)
+            {
                 cnt++;
             }
-        } 
-        prev = num;
+            prev = curr;
+        }
+        return cnt;
     }
+}
 
-    std::cout << std::to_string(cnt) << std::endl;
+int main()
+{
+
+    std::cout << std::to_string(increasedSlidingWindows(3)) << std::endl;
     return 0;
 }
