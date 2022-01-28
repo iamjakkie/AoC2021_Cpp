@@ -1,38 +1,80 @@
 #include <fstream>
 #include <iostream>
 #include <bitset>
+#include <vector>
 #define SIZE 12
+
+bool getMostCommonBit(const std::vector<std::bitset<SIZE>>& nums, int pos){
+    int ones = 0;
+    for(auto i: nums){
+        ones += (i[pos]==1) ? 1:0;
+    }
+    return ones >= (nums.size()-ones);
+}
+
+bool getLeastCommonBit(const std::vector<std::bitset<SIZE>>& nums, int pos){
+    int ones = 0;
+    for(auto i: nums){
+        ones+=(i[pos]==1) ? 1 : 0;
+    }
+    return ones < (nums.size()-ones);
+}
 
 int main()
 {
     std::ifstream file("input.txt");
-    int oneCounts[SIZE];
-    int cnt = 0;
+    int firstOneCount;
     std::string val;
-    std::bitset<SIZE> gamma, epsilon;
+    std::vector<std::bitset<SIZE>> oxygenBitset, oxygenFiltered, co2Bitset, co2Filtered;
+    std::bitset<SIZE> oxygen, co2;
     while (file >> val)
     {
         std::bitset<SIZE> bs(val);
-        for (auto i = 0; i < SIZE; i++)
-        {
-            if (bs[i] == 1)
-            {
-                oneCounts[i]++;
-            }
+        if(bs[SIZE-1]==1){
+            firstOneCount++;
         }
-        cnt++;
+        oxygenBitset.emplace_back(bs);
+        co2Bitset.emplace_back(bs);
+    }
+    bool mostCommon = getMostCommonBit(oxygenBitset, SIZE-1);
+    bool leastCommon = !mostCommon;
+    for(int i; i<oxygenBitset.size(); i++){
+        if(oxygenBitset[i][SIZE-1] == mostCommon){
+            oxygenFiltered.emplace_back(oxygenBitset[i]);
+        }
+        if(co2Bitset[i][SIZE-1] == leastCommon){
+            co2Filtered.emplace_back(co2Bitset[i]);
+        }
     }
 
-    for(auto i=0; i<SIZE; i++){
-        int ones = oneCounts[i];
-        int zeros = cnt-oneCounts[i];
-        gamma[i] = (ones>zeros) ? 1 : 0;
+    for(int i = SIZE-2; i>=0; i--){
+        oxygenBitset = oxygenFiltered;
+        co2Bitset = co2Filtered;
+        oxygenFiltered.clear();
+        co2Filtered.clear();
+        mostCommon = getMostCommonBit(oxygenBitset, i);
+        leastCommon = getLeastCommonBit(co2Bitset, i);
+        for(auto bs:oxygenBitset){
+            if(bs[i] == mostCommon){
+                oxygenFiltered.emplace_back(bs);
+            }
+        }
+        for(auto bs:co2Bitset){
+            if(bs[i] == leastCommon){
+                co2Filtered.emplace_back(bs);
+            }
+        }
+        if(oxygenFiltered.size() == 1){
+            oxygen = oxygenFiltered.front();
+        }
+        if(co2Filtered.size() == 1){
+            co2 = co2Filtered.front();
+        }
     }
-    epsilon = gamma;
-    epsilon = epsilon.flip();
-    int iGamma = gamma.to_ulong();
-    int iEpsilon = epsilon.to_ulong();
-    int res = iGamma*iEpsilon;
-    std::cout << std::to_string(res) << std::endl;
+    std::cout << oxygen.to_ulong() << std::endl;
+    std::cout << co2.to_ulong() << std::endl;
+
+    
+    
     return 0;
 }
