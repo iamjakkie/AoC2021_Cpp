@@ -7,6 +7,9 @@
 
 #define SIZE = 5
 
+
+
+
 int main(){
     std::string str = "";
     std::string guesses = "";
@@ -24,9 +27,12 @@ int main(){
             read++;
             continue;
         }
+        if(read < 2){
+            read++;
+            continue;
+        }
         std::array<int, 5> arr;
         if(str != ""){
-            std::cout << str << std::endl;
             std::string s_num = "";
             bool space = false;
             for(char const& c: str){
@@ -41,20 +47,19 @@ int main(){
                 }
             }
             arr[ind++] = std::stoi(s_num);
-        } else{
-            std::cout << std::endl;
             board[g_ind++] = arr;
             ind = 0;
         }
+        // ind = 0;
         // std::cout << std::to_string(board.size());
-        if(g_ind == 4){
+        if(g_ind == 5){
             boards.emplace_back(board);
             g_ind = 0;
         }
-        ind = 0;
     }
     newfile.close();
 
+    std::cout << guesses << std::endl;
     for(auto board:boards){
         for(auto arr:board){
             for(auto num:arr){
