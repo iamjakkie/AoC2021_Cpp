@@ -8,34 +8,61 @@
 #define SIZE = 5
 
 int main(){
-    std::ifstream file("input.txt");
-    std::string str, guesses;
+    std::string str = "";
+    std::string guesses = "";
     std::vector<std::array<std::array<int, 5>, 5>> boards;
-
-    std::getline(file, guesses);
-
-    std::cout << guesses << std::endl;
-    int g_ind, ind = 0;
+    int g_ind = 0;
+    int ind = 0; 
+    int read = 0;
     std::array<std::array<int, 5>, 5> board;
-    while(std::getline(file, str)){
+    std::fstream newfile;
+    newfile.open("input.txt", std::ios::in);
+
+    while(std::getline(newfile, str)){
+        if(read==0){
+            guesses = str;
+            read++;
+            continue;
+        }
         std::array<int, 5> arr;
         if(str != ""){
-            std::istringstream iss(str);
-            std::string s_num;
-            while(std::getline(iss, s_num, ' ')){
-                if(s_num != ""){
-                    arr[ind++] = std::stoi(s_num);
+            std::cout << str << std::endl;
+            std::string s_num = "";
+            bool space = false;
+            for(char const& c: str){
+                if(c != ' '){
+                    s_num += c;
+                    continue;
+                } else{
+                    if(s_num != ""){
+                        arr[ind++] = std::stoi(s_num);
+                    }
+                    s_num = "";
                 }
             }
+            arr[ind++] = std::stoi(s_num);
+        } else{
+            std::cout << std::endl;
             board[g_ind++] = arr;
-            // arr[ind++] = 
-            // std::cout << "Line" << str << std::endl;
+            ind = 0;
         }
+        // std::cout << std::to_string(board.size());
         if(g_ind == 4){
             boards.emplace_back(board);
             g_ind = 0;
         }
         ind = 0;
+    }
+    newfile.close();
+
+    for(auto board:boards){
+        for(auto arr:board){
+            for(auto num:arr){
+                std::cout << std::to_string(num) << " ";
+            }
+            std::cout << std::endl;
+        }
+        std::cout << std::endl;
     }
 
     return 0;
