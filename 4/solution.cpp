@@ -5,42 +5,51 @@
 #include <vector>
 #include <sstream>
 
-#define SIZE = 5
+#include "board.h"
 
+constexpr int size = 5;
 
-
-
-int main(){
+int main()
+{
     std::string str = "";
     std::string guesses = "";
-    std::vector<std::array<std::array<int, 5>, 5>> boards;
+    std::vector<Board> boards;
     int g_ind = 0;
-    int ind = 0; 
+    int ind = 0;
     int read = 0;
-    std::array<std::array<int, 5>, 5> board;
+    std::array<std::array<int, size>, size> board;
     std::fstream newfile;
     newfile.open("input.txt", std::ios::in);
 
-    while(std::getline(newfile, str)){
-        if(read==0){
+    while (std::getline(newfile, str))
+    {
+        if (read == 0)
+        {
             guesses = str;
             read++;
             continue;
         }
-        if(read < 2){
+        if (read < 2)
+        {
             read++;
             continue;
         }
-        std::array<int, 5> arr;
-        if(str != ""){
+        std::array<int, size> arr;
+        if (str != "")
+        {
             std::string s_num = "";
             bool space = false;
-            for(char const& c: str){
-                if(c != ' '){
+            for (char const &c : str)
+            {
+                if (c != ' ')
+                {
                     s_num += c;
                     continue;
-                } else{
-                    if(s_num != ""){
+                }
+                else
+                {
+                    if (s_num != "")
+                    {
                         arr[ind++] = std::stoi(s_num);
                     }
                     s_num = "";
@@ -52,23 +61,45 @@ int main(){
         }
         // ind = 0;
         // std::cout << std::to_string(board.size());
-        if(g_ind == 5){
-            boards.emplace_back(board);
+        if (g_ind == size)
+        {
+            boards.emplace_back(Board(board));
             g_ind = 0;
         }
     }
     newfile.close();
 
     std::cout << guesses << std::endl;
-    for(auto board:boards){
-        for(auto arr:board){
-            for(auto num:arr){
-                std::cout << std::to_string(num) << " ";
-            }
-            std::cout << std::endl;
-        }
-        std::cout << std::endl;
+    for (auto board : boards)
+    {
+        std::cout << board;
     }
+
+    std::string guess;
+    for (const char &c : guesses)
+    {
+        if (c != ',')
+        {
+            guess += c;
+            continue;
+        }
+        else
+        {
+            if (guess != "")
+            {
+                std::cout << guess << std::endl;
+                for(Board& b:boards){
+                    bool check = b.checkNumber(std::stoi(guess));
+                    if(check){
+                        std::cout << guess << std::endl;
+                        std::cout << b;
+                    }
+                }
+            }
+            guess = "";
+        }
+    }
+    std::cout << guess << std::endl;
 
     return 0;
 }

@@ -1,5 +1,6 @@
 #include <array>
 #include <unordered_map>
+#include <ostream>
 
 struct Pos
 {
@@ -9,18 +10,20 @@ struct Pos
 
 
 class Board {
-    protected:
-     Board(const std::array<std::array<int, 5>, 5>& input);
-     ~Board();
+    public:
+     Board(const std::array<std::array<int, 5>, 5>& board);
+    //  ~Board();
      bool checkNumber(const int& num);
+     friend std::ostream& operator<<(std::ostream& os, const Board& bd);
+     
 
     private:
-     bool checkRows();
-     bool checkCols();
-     void mark(const int& num);
-     void split();
+     bool check(std::unordered_map<int, int>& direction, const int& num);
 
-     std::array<int, 5> _cols;
-     std::array<int, 5> _rows;
+     std::unordered_map<int, int> _rowsHit;
+     std::unordered_map<int, int> _colsHit;
      std::unordered_map<int, Pos> _nums;
+     std::array<std::array<int, 5>, 5> _bd;
 };
+
+std::ostream& operator<<(std::ostream& os, const Board& bd);
