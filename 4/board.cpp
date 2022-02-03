@@ -10,6 +10,7 @@ Board::Board(const std::array<std::array<int, 5>, 5> &input)
         for (const auto &num : arr)
         {
             _nums.insert(std::make_pair(num, Pos{a_ind, b_ind}));
+            _unmarked+=num;
             a_ind++;
         }
         b_ind++;
@@ -27,6 +28,8 @@ bool Board::checkNumber(const int &num)
     auto it = _nums.find(num);
     if (it != _nums.end())
     {
+        _unmarked-=num;
+        _marked+=num;
         Pos p = it->second;
         bool inCols = check(_colsHit, p.Y);
         bool inRows = check(_rowsHit, p.X);
@@ -42,6 +45,7 @@ bool Board::check(std::unordered_map<int, int>& direction, const int &num)
         it->second++;
         if (it->second == 5)
         {
+            std::cout << "Unmarked:" << _unmarked << std::endl;
             return true;
         }
     }

@@ -96,6 +96,7 @@ int main()
                         bool check = b.checkNumber(std::stoi(guess));
                         if (check)
                         {
+                            std::cout << "Last num:" << guess << std::endl;
                             found = &b;
                         }
                     }

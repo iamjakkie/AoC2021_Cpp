@@ -25,6 +25,9 @@ class Board {
      std::unordered_map<int, int> _colsHit;
      std::unordered_map<int, Pos> _nums;
      std::array<std::array<int, 5>, 5> _bd;
+     int _unmarked = 0;
+     int _marked = 0;
+
 };
 
 std::ostream& operator<<(std::ostream& os, const Board& bd);
