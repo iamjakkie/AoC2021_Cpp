@@ -76,30 +76,39 @@ int main()
     }
 
     std::string guess;
+    Board *found = nullptr;
     for (const char &c : guesses)
     {
-        if (c != ',')
+        if (found == nullptr)
         {
-            guess += c;
-            continue;
-        }
-        else
-        {
-            if (guess != "")
+            if (c != ',')
             {
-                std::cout << guess << std::endl;
-                for(Board& b:boards){
-                    bool check = b.checkNumber(std::stoi(guess));
-                    if(check){
-                        std::cout << guess << std::endl;
-                        std::cout << b;
+                guess += c;
+                continue;
+            }
+            else
+            {
+                if (guess != "")
+                {
+                    std::cout << guess << std::endl;
+                    for (Board &b : boards)
+                    {
+                        bool check = b.checkNumber(std::stoi(guess));
+                        if (check)
+                        {
+                            found = &b;
+                        }
                     }
                 }
+                guess = "";
             }
-            guess = "";
+        } else{
+            break;
         }
     }
     std::cout << guess << std::endl;
+
+    std::cout << *found;
 
     return 0;
 }

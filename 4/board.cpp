@@ -3,15 +3,17 @@
 Board::Board(const std::array<std::array<int, 5>, 5> &input)
 {
     _bd = input;
-    int a_ind, b_ind = 0;
+    int a_ind = 0;
+    int b_ind = 0;
     for (const auto &arr : input)
     {
         for (const auto &num : arr)
         {
             _nums.insert(std::make_pair(num, Pos{a_ind, b_ind}));
-            b_ind++;
+            a_ind++;
         }
-        a_ind++;
+        b_ind++;
+        a_ind = 0;
     }
     for (auto i = 0; i < 5; i++)
     {
