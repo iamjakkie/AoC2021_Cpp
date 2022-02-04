@@ -4,6 +4,7 @@
 #include <array>
 #include <vector>
 #include <sstream>
+#include <unordered_set>
 
 #include "board.h"
 
@@ -11,6 +12,7 @@ constexpr int size = 5;
 
 int main()
 {
+    int boardNum = 1;
     std::string str = "";
     std::string guesses = "";
     std::vector<Board> boards;
@@ -63,7 +65,7 @@ int main()
         // std::cout << std::to_string(board.size());
         if (g_ind == size)
         {
-            boards.emplace_back(Board(board));
+            boards.emplace_back(Board(board, boardNum++));
             g_ind = 0;
         }
     }
@@ -76,10 +78,10 @@ int main()
     }
 
     std::string guess;
-    Board *found = nullptr;
+    std::unordered_set<int> solvedBoards;
     for (const char &c : guesses)
     {
-        if (found == nullptr)
+        if (solvedBoards.size() != 100)
         {
             if (c != ',')
             {
@@ -90,26 +92,53 @@ int main()
             {
                 if (guess != "")
                 {
-                    std::cout << guess << std::endl;
                     for (Board &b : boards)
                     {
                         bool check = b.checkNumber(std::stoi(guess));
                         if (check)
                         {
-                            std::cout << "Last num:" << guess << std::endl;
-                            found = &b;
+                            if (solvedBoards.insert(b.getId()).second)
+                            {
+
+                                if (solvedBoards.size() == 100)
+                                {
+                                    std::cout << "====100====" << std::endl;
+                                    std::cout << "Last num:" << guess << std::endl;
+                                    std::cout << b.getUnmarked() << std::endl;
+                                }
+                            }
                         }
                     }
                 }
                 guess = "";
             }
-        } else{
+        }
+        else
+        {
             break;
         }
     }
-    std::cout << guess << std::endl;
+    if (solvedBoards.size() != 100)
+    {
+        for (Board &b : boards)
+        {
+            bool check = b.checkNumber(std::stoi(guess));
+            if (check)
+            {
 
-    std::cout << *found;
+                if (solvedBoards.insert(b.getId()).second)
+                {
+                    std::cout << solvedBoards.size() << " curr:" << b.getId() << std::endl;
+                    if (solvedBoards.size() == 100)
+                    {
+                        std::cout << "Last num:" << guess << std::endl;
+                        std::cout << b.getUnmarked() << std::endl;
+                    }
+                }
+            }
+        }
+    }
+    std::cout << guesses << std::endl;
 
     return 0;
 }

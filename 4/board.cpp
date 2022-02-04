@@ -1,7 +1,8 @@
 #include "board.h"
 
-Board::Board(const std::array<std::array<int, 5>, 5> &input)
+Board::Board(const std::array<std::array<int, 5>, 5> &input, const int& id)
 {
+    _num = id;
     _bd = input;
     int a_ind = 0;
     int b_ind = 0;
@@ -45,11 +46,14 @@ bool Board::check(std::unordered_map<int, int>& direction, const int &num)
         it->second++;
         if (it->second == 5)
         {
-            std::cout << "Unmarked:" << _unmarked << std::endl;
             return true;
         }
     }
     return false;
+}
+
+const int Board::getUnmarked(){
+    return _unmarked;
 }
 
 std::ostream& operator<<(std::ostream& os, const Board& bd)
@@ -63,3 +67,22 @@ std::ostream& operator<<(std::ostream& os, const Board& bd)
     }
     return os;
 }
+
+const int Board::getId(){
+    return _num;
+}
+
+// bool Board::operator==(const Board& otherBoard) const
+//   {
+//     if (this->_bd == otherBoard._bd) return true;
+//     else return false;
+//   }
+
+//   struct HashFunction
+//   {
+//     size_t operator()(const Board& bd) const
+//     {
+//       size_t xHash = std::hash<std::array<std::array<int,5>,5>()(bd._bd);
+//       return xHash;
+//     }
+//   };
