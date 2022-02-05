@@ -17,32 +17,52 @@ struct pair_hash
 int main()
 {
     std::unordered_map<pair, int, pair_hash> vents;
-    for (int i = 0; i < 10; i++)
-    {
-        for (int j = 0; j < 10; j++)
-        {
-            vents[std::make_pair(i, j)] = 0;
-        }
-    }
+    // for (int i = 0; i < 10; i++)
+    // {
+    //     for (int j = 0; j < 10; j++)
+    //     {
+    //         vents[std::make_pair(i, j)] = 0;
+    //     }
+    // }
 
     std::fstream newfile;
     newfile.open("input.txt", std::ios::in);
     std::string line;
+    int numlines = 0;
     int x1, y1, x2, y2;
     while (std::getline(newfile, line))
     {
+        numlines++;
         std::cout << line << std::endl;
         if (line != "")
         {
-            for(const char& c:line){
-                
-            }
-            x1 = line.at(0) - '0';
-            y1 = line.at(2) - '0';
-            ;
-            x2 = line.at(line.length() - 3) - '0';
-            ;
-            y2 = line.at(line.length() - 1) - '0';
+            x1 = std::stoi(line.substr(0,line.find(',')));
+            y1 = std::stoi(line.substr(line.find(',')+1, line.find(' ')-std::to_string(x1).length()));
+            std::string second = line.substr(line.find(' ')+3);
+            x2 = std::stoi(second.substr(0, second.find(',')));
+            y2 = std::stoi(second.substr(second.find(',')+1));
+            
+
+            // for(const char& c:line){
+            //     // std::cout << c << " ";
+            //     if(c != ',' && c != ' '){
+            //         s_num += c;
+            //         // std::cout << s_num;
+            //         continue;
+            //     } else{
+            //         if(s_num != ""){
+            //             std::cout << s_num << std::endl;
+            //         }
+            //         s_num = "";
+            //     }
+            // }
+            std::cout << "[" << x1 << "," << y1 << "] [" << x2 << "," << y2 << "]" << std::endl;
+            // x1 = line.at(0) - '0';
+            // y1 = line.at(2) - '0';
+            // ;
+            // x2 = line.at(line.length() - 3) - '0';
+            // ;
+            // y2 = line.at(line.length() - 1) - '0';
             ;
             if (x1 == x2)
             {
@@ -61,9 +81,9 @@ int main()
         }
     }
     int aboveTwo = 0;
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < numlines; i++)
     {
-        for (int j = 0; j < 10; j++)
+        for (int j = 0; j < numlines; j++)
         {
             if(vents[std::make_pair(i,j)] > 1){
                 aboveTwo++;
