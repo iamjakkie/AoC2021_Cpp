@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 
 typedef std::pair<int, int> pair;
@@ -17,22 +18,14 @@ struct pair_hash
 int main()
 {
     std::unordered_map<pair, int, pair_hash> vents;
-    // for (int i = 0; i < 10; i++)
-    // {
-    //     for (int j = 0; j < 10; j++)
-    //     {
-    //         vents[std::make_pair(i, j)] = 0;
-    //     }
-    // }
+    std::unordered_set<pair, pair_hash> aboveTwo;
 
     std::fstream newfile;
     newfile.open("input.txt", std::ios::in);
     std::string line;
-    int numlines = 0;
     int x1, y1, x2, y2;
     while (std::getline(newfile, line))
     {
-        numlines++;
         std::cout << line << std::endl;
         if (line != "")
         {
@@ -68,27 +61,38 @@ int main()
             {
                 for (int i = std::min(y1, y2); i <= std::max(y1, y2); i++)
                 {
-                    vents[std::make_pair(i, x1)]++;
+                    auto p = std::make_pair(i, x1);
+                    vents[p]++;
+                    if(vents[p] > 1){
+                        aboveTwo.insert(p);
+                    }
                 }
             }
             if (y1 == y2)
             {
                 for (int i = std::min(x1, x2); i <= std::max(x1, x2); i++)
                 {
-                    vents[std::make_pair(y1, i)]++;
+                    auto p = std::make_pair(y1, i);
+                    vents[p]++;
+                    if(vents[p] > 1){
+                        aboveTwo.insert(p);
+                    }
                 }
             }
         }
     }
-    int aboveTwo = 0;
-    for (int i = 0; i < numlines; i++)
-    {
-        for (int j = 0; j < numlines; j++)
-        {
-            if(vents[std::make_pair(i,j)] > 1){
-                aboveTwo++;
-            }
-        }
-    }
-    std::cout << aboveTwo << std::endl;
+    
+    // for (int i = 0; i < numlines; i++)
+    // {
+    //     for (int j = 0; j < numlines; j++)
+    //     {
+    //         auto val = vents[std::make_pair(i,j)];
+    //         // std::cout << val << " ";
+    //         if(val > 1){
+    //             aboveTwo++;
+    //         }
+    //     }
+    //     // std::cout << std::endl;
+    // }
+    std::cout << aboveTwo.size() << std::endl;
 }
