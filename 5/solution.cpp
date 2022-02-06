@@ -19,13 +19,14 @@ int main()
 {
     std::unordered_map<pair, int, pair_hash> vents;
     std::unordered_set<pair, pair_hash> aboveTwo;
-
+    int numlines = 0;
     std::fstream newfile;
     newfile.open("input.txt", std::ios::in);
     std::string line;
     int x1, y1, x2, y2;
     while (std::getline(newfile, line))
     {
+        numlines++;
         std::cout << line << std::endl;
         if (line != "")
         {
@@ -57,7 +58,23 @@ int main()
                     }
                 }
             }
+            for (int i = 0; i <= std::max(x1, x2)-std::min(x1,x2); i++)
+                {
+                    auto p = std::make_pair(y1+i, x1+i);
+                    vents[p]++;
+                    if(vents[p] > 1){
+                        aboveTwo.insert(p);
+                    }
+                }
         }
     }
+
+    for(int i = 0; i <= numlines; i++){
+        for(int j=0; j<=numlines; j++){
+            std::cout << vents[std::make_pair(i,j)] << " ";
+        }
+        std::cout << std::endl;
+    }
+
     std::cout << aboveTwo.size() << std::endl;
 }
