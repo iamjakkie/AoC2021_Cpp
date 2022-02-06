@@ -35,28 +35,6 @@ int main()
             x2 = std::stoi(second.substr(0, second.find(',')));
             y2 = std::stoi(second.substr(second.find(',')+1));
             
-
-            // for(const char& c:line){
-            //     // std::cout << c << " ";
-            //     if(c != ',' && c != ' '){
-            //         s_num += c;
-            //         // std::cout << s_num;
-            //         continue;
-            //     } else{
-            //         if(s_num != ""){
-            //             std::cout << s_num << std::endl;
-            //         }
-            //         s_num = "";
-            //     }
-            // }
-            std::cout << "[" << x1 << "," << y1 << "] [" << x2 << "," << y2 << "]" << std::endl;
-            // x1 = line.at(0) - '0';
-            // y1 = line.at(2) - '0';
-            // ;
-            // x2 = line.at(line.length() - 3) - '0';
-            // ;
-            // y2 = line.at(line.length() - 1) - '0';
-            ;
             if (x1 == x2)
             {
                 for (int i = std::min(y1, y2); i <= std::max(y1, y2); i++)
@@ -81,18 +59,5 @@ int main()
             }
         }
     }
-    
-    // for (int i = 0; i < numlines; i++)
-    // {
-    //     for (int j = 0; j < numlines; j++)
-    //     {
-    //         auto val = vents[std::make_pair(i,j)];
-    //         // std::cout << val << " ";
-    //         if(val > 1){
-    //             aboveTwo++;
-    //         }
-    //     }
-    //     // std::cout << std::endl;
-    // }
     std::cout << aboveTwo.size() << std::endl;
 }
