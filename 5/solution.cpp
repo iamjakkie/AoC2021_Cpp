@@ -40,7 +40,7 @@ int main()
             {
                 for (int i = std::min(y1, y2); i <= std::max(y1, y2); i++)
                 {
-                    auto p = std::make_pair(i, x1);
+                    auto p = std::make_pair(x1, i);
                     vents[p]++;
                     if(vents[p] > 1){
                         aboveTwo.insert(p);
@@ -51,27 +51,51 @@ int main()
             {
                 for (int i = std::min(x1, x2); i <= std::max(x1, x2); i++)
                 {
-                    auto p = std::make_pair(y1, i);
+                    auto p = std::make_pair(i, y1);
                     vents[p]++;
                     if(vents[p] > 1){
                         aboveTwo.insert(p);
                     }
                 }
-            }
-            for (int i = 0; i <= std::max(x1, x2)-std::min(x1,x2); i++)
+            } else{
+                std::cout << "[" << x1 << "," << y1 << "] [" << x2 << "," << y2 << "]" << std::endl;
+                for (int i = 0; i <= std::max(x1, x2)-std::min(x1,x2); i++)
                 {
-                    auto p = std::make_pair(y1+i, x1+i);
+                    p = std::pair<int,int>
+                    if(x1<x2){
+                        if(y1<y2){
+                            auto p = std::make_pair(x1+i, y1+i);
+                            std::cout << (x1+i) << " " << (y1+i) << "_";
+                        } else{
+                            auto p = std::make_pair(x1+i, y1-i);
+                            std::cout << (x1+i) << " " << (y1-i) << "_";
+                        }
+                        
+                    } else{
+                        if(y1<y2){
+                            auto p = std::make_pair(x1-i, y1+i);
+                            std::cout << (x1-i) << " " << (y1+i) << "_";
+                        } else{
+                            auto p = std::make_pair(x1-i, y1-i);
+                            std::cout << (x1-i) << " " << (y1-i) << "_";
+                        }
+                    }
+                    
+                    
                     vents[p]++;
                     if(vents[p] > 1){
                         aboveTwo.insert(p);
                     }
                 }
+                std::cout << std::endl;
+            }
+            
         }
     }
 
-    for(int i = 0; i <= numlines; i++){
-        for(int j=0; j<=numlines; j++){
-            std::cout << vents[std::make_pair(i,j)] << " ";
+    for(int i = 0; i <= 9; i++){
+        for(int j=0; j<=9; j++){
+            std::cout << vents[std::make_pair(j,i)] << " ";
         }
         std::cout << std::endl;
     }
