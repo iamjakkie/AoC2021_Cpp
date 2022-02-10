@@ -12,7 +12,7 @@ int main(){
     std::getline(newfile, line);
     std::string s_num = "";
     std::vector<Lanternfish> fish;
-    std::cout << line << std::endl;
+    // std::cout << line << std::endl;
     for (char const &c : line)
     
             {
@@ -31,12 +31,12 @@ int main(){
                 }
             }
     fish.emplace_back(Lanternfish(std::stoi(s_num)));
-    std::cout << "Initial State: ";
-    for(auto f:fish){
-        std::cout << f.getDay() << ",";
-    }
-    std::cout << std::endl;
-    for(int i = 0; i < 19; i++){
+    // std::cout << "Initial State: ";
+    // for(auto f:fish){
+    //     std::cout << f.getDay() << ",";
+    // }
+    // std::cout << std::endl;
+    for(int i = 0; i < 80; i++){
         int c = 0;
         for(int fn = 0; fn < fish.size(); fn++){
             auto new_f = fish[fn].moveTimer();
@@ -47,12 +47,13 @@ int main(){
         for(int j = 0; j < c; j++){
             fish.emplace_back(Lanternfish{});
         }
-        std::cout << "After day " << std::to_string(i+1) << " ";
-        for(auto f:fish){
-            std::cout << f.getDay() << ",";
-        }
-        std::cout << std::endl;
+        // std::cout << "After day " << std::to_string(i+1) << " ";
+        // for(auto f:fish){
+        //     std::cout << f.getDay() << ",";
+        // }
+        // std::cout << std::endl;
     }
+    std::cout << fish.size() << std::endl;
 
     
 }
