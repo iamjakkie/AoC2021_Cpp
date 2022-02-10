@@ -13,4 +13,5 @@ std::optional<Lanternfish*> Lanternfish::moveTimer(){
         setDay(6);
         return new Lanternfish();
     }
+    return {};
 }

@@ -23,10 +23,14 @@ int main(){
                 {
                     if (s_num != "")
                     {
-                        fish.emplace_back(new Lanternfish(std::stoi(s_num)));
+                        
+                        if(auto f = Lanternfish(std::stoi(s_num))){
+                            fish.emplace_back(f);
+                        }
+                        
                     }
                     s_num = "";
                 }
             }
-            
+
 }
