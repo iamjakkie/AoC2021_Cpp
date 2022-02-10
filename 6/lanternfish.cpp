@@ -3,15 +3,19 @@
 Lanternfish::Lanternfish(){
     setDay(8);
 }
-Lanternfish::Lanternfish(int day){
-    setDay(day);
-}
-std::optional<Lanternfish*> Lanternfish::moveTimer(){
-    auto currDay = getDay()-1;
-    setDay(currDay);
+bool Lanternfish::moveTimer(){
+    auto currDay = getDay();
     if(currDay == 0){
         setDay(6);
-        return new Lanternfish();
+        return true;
     }
-    return {};
+    currDay--;
+    setDay(currDay);
+    return false;
+}
+void Lanternfish::setDay(int day){
+    _day = day;
+}
+int Lanternfish::getDay(){
+    return _day;
 }

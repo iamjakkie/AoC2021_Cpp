@@ -1,11 +1,10 @@
-#include <optional>
+#include <experimental/optional>
 
 class Lanternfish{
     public:
      Lanternfish();
      Lanternfish(int day): _day(day) {};
-     ~Lanternfish();
-     std::optional<Lanternfish*> moveTimer();
+     bool moveTimer();
      int getDay();
      void setDay(int day);
 
