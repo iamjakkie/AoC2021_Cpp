@@ -36,7 +36,7 @@ int main(){
     //     std::cout << f.getDay() << ",";
     // }
     // std::cout << std::endl;
-    for(int i = 0; i < 256; i++){
+    for(int i = 0; i < 18; i++){
         int c = 0;
         for(int fn = 0; fn < fish.size(); fn++){
             auto new_f = fish[fn].moveTimer();
