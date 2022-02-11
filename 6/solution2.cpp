@@ -72,7 +72,7 @@ int main(){
     // }
 
     for(int day = 0; day < 256; day++){
-        int temp = fish[0];
+        long temp = fish[0];
         fish[0] = fish[1];
         fish[1] = fish[2];
         fish[2] = fish[3];
