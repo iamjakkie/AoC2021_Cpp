@@ -5,7 +5,12 @@
 #include <algorithm>
 
 int calcDistance(int from, int to){
-    return std::abs(from-to);
+    int res = 0;
+    int steps = std::abs(from-to);
+    for(auto step = 0; step < steps; step++){
+        res+=step;
+    }
+    return res;
 }
 
 int calcMedian(std::vector<int> input){
