@@ -56,9 +56,14 @@ int main() {
 
 
 
+    // for(auto pos: positions){
+    //     std::cout << pos << " ";
+    // }
+    // std::cout << std::endl;
+    int median = calcMedian(positions);
+    int fuel = 0;
     for(auto pos: positions){
-        std::cout << pos << " ";
+        fuel+=std::abs(pos-median);
     }
-    std::cout << std::endl;
-    std::cout << 
+    std::cout << fuel << std::endl;
 }
