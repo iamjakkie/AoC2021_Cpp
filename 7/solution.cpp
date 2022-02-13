@@ -7,7 +7,7 @@
 int calcDistance(int from, int to){
     int res = 0;
     int steps = std::abs(from-to);
-    for(auto step = 0; step < steps; step++){
+    for(auto step = 0; step <= steps; step++){
         res+=step;
     }
     return res;
@@ -68,7 +68,7 @@ int main() {
     int median = calcMedian(positions);
     int fuel = 0;
     for(auto pos: positions){
-        fuel+=std::abs(pos-median);
+        fuel+=calcDistance(pos,median);
     }
     std::cout << fuel << std::endl;
 }
