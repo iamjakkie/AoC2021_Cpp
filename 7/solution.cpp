@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include <cmath>
 
 int calcDistance(int from, int to){
     int res = 0;
@@ -31,6 +32,14 @@ int calcMedian(std::vector<int> input){
         std::nth_element(input.begin(), median_it , input.end());
         return *median_it;
     }
+}
+
+int calcMean(std::vector<int> input){
+    int64_t sum = 0;
+    for (int pos : input) {
+        sum += pos;
+    }
+    return static_cast<int>(std::round(static_cast<double>(sum) / static_cast<double>(input.size())));
 }
 
 int main() {
@@ -66,9 +75,16 @@ int main() {
     // }
     // std::cout << std::endl;
     int median = calcMedian(positions);
-    int fuel = 0;
+    int mean = calcMean(positions);
+    int mean_fuel, mean_sub1_fuel, mean_sub2_fuel, mean_add1_fuel = 0;
     for(auto pos: positions){
-        fuel+=calcDistance(pos,median);
+        mean_fuel+=calcDistance(pos,mean);
+        mean_sub1_fuel+=calcDistance(pos, mean-1);
+        mean_add1_fuel+=calcDistance(pos, mean+1);
     }
-    std::cout << fuel << std::endl;
+
+    
+    std::cout << "mean: " << mean_fuel << std::endl;
+    std::cout << "sub1: " << mean_sub1_fuel << std::endl;
+    std::cout << "add1: " << mean_add1_fuel << std::endl;
 }
