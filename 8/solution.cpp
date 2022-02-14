@@ -28,9 +28,26 @@ b    .  b    .  .    c  b    c  b    c
 #include <unordered_map>
 #include <vector>
 
-void setMapping(std::string s_num){
+void setMapping(std::unordered_map<char, char>& mapping, std::string s_num){
+    int size = s_num.size();
+    if(size == 4){
+        mapping['b'] = s_num[0];
+        mapping['c'] = s_num[1];
+        mapping['d'] = s_num[2];
+        mapping['f'] = s_num[3];
+    }
+    if(size == 3){
+        mapping['a'] = s_num[0];
+    }
+    if(size == 8){
+        mapping['e'] = s_num[4];
+    }
     
 }
+// 1 - cf
+// 4 - bcdf
+// 7 - acf
+// 8 - abcdefg
 
 int main()
 {
@@ -56,21 +73,18 @@ int main()
             {
                 if (s_num != "")
                 {
-                    int size = s_num.size();
-                    if (size == 2)
-                    {
-                        mapping['c'] = s_num[0];
-                        mapping['f'] = s_num[1];
-                    }
+                    setMapping(mapping,s_num);
                 }
                 s_num = "";
             }
         }
-        int size = s_num.size();
-        if (size == 2 || size == 3 || size == 4 || size == 7)
-        {
-            count++;
-        }
+        setMapping(mapping,s_num);
     }
-    std::cout << count << std::endl;
+    for(auto p: mapping){
+        std::cout << p.first << ": ";
+        for(auto c: p.second){
+            std::cout << c << ",";
+        }
+        std::cout << std::endl;
+    }
 }
