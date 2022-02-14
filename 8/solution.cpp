@@ -25,19 +25,27 @@ b    .  b    .  .    c  b    c  b    c
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <unordered_map>
+#include <vector>
+
+void setMapping(std::string s_num){
+    
+}
 
 int main()
 {
     std::fstream file;
     std::string line;
     file.open("input.txt", std::ios::in);
+    std::unordered_map<char, std::vector<char>> mapping;
     int count = 0;
 
     while (std::getline(file, line))
     {
-        std::string nums = line.substr(line.find("|") + 2);
+        std::string input = line.substr(0, line.find("|") -1);
+        std::cout << input << std::endl;
         std::string s_num;
-        for (const char &c : nums)
+        for (const char &c : input)
         {
             if (c != ' ')
             {
@@ -49,9 +57,10 @@ int main()
                 if (s_num != "")
                 {
                     int size = s_num.size();
-                    if (size == 2 || size == 3 || size == 4 || size == 7)
+                    if (size == 2)
                     {
-                        count++;
+                        mapping['c'] = s_num[0];
+                        mapping['f'] = s_num[1];
                     }
                 }
                 s_num = "";
